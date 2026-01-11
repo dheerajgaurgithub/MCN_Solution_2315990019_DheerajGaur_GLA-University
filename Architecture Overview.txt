@@ -1,0 +1,143 @@
+STREAKVERSE is a gamified rewards platform for Gen Z to track daily habits, complete challenges, join squads, and earn rewards.
+
+Key Layers:
+
+Layer	Technology / Tool	Purpose
+Mobile App	React Native / Expo	User interface
+Backend API	Node.js / NestJS	Handles business logic, auth, rewards, streaks, and squads
+Database	PostgreSQL (main), Redis	PostgreSQL: persistent storage, Redis: caching, streak counters, leaderboard
+Authentication	Firebase Auth / JWT	Secure login and token-based session
+Challenge Engine	OpenAI API	Generate dynamic challenges
+Payments & Rewards	Stripe / Razorpay	Manage wallet, redeem rewards
+Storage	AWS S3	Reward assets, images
+Notifications	Firebase Push, Twilio SMS	Engagement notifications
+Analytics	Google Analytics / Mixpanel	Track user behavior and engagement
+2️⃣ ERD (Entity Relationship Diagram)
+
+Entities & Relationships:
+
+User
+
+id, name, email, password, walletBalance, createdAt
+
+Task / Challenge
+
+id, title, description, points, type, createdAt
+
+Streak_History
+
+id, userId, taskId, date, completed
+
+Reward
+
+id, name, pointsCost, type, expiryDate
+
+Squad / UserSquad
+
+id, name, members (userIds), createdAt
+
+Streak_Event
+
+id, title, startDate, endDate, bonusPoints
+
+ERD Diagram (text-based):
+
+User (1) ----< Streak_History >---- (1) Task
+User (1) ----< UserSquad >---- (1) Squad
+User (1) ----< Reward (wallet balance redemption)
+Streak_Event ---< Streak_History
+
+
+I can generate a visual ERD diagram as a PNG or SVG for you.
+
+3️⃣ DFD (Data Flow Diagram) – Level 0
+
+Main flows:
+
+User interacts with Mobile App
+
+App calls Backend API
+
+API interacts with Database & Redis
+
+API triggers Challenge Engine for dynamic challenges
+
+API triggers Reward Engine for earning/redeeming coins
+
+Notifications sent via Firebase / Twilio
+
+DFD (text-based):
+
+[User] --> [Mobile App] --> [Backend API] --> [Database (PostgreSQL)]
+                                      |--> [Cache (Redis)]
+                                      |--> [OpenAI API (Challenge Engine)]
+                                      |--> [Payment API (Stripe/Razorpay)]
+                                      |--> [Notifications (Firebase/ Twilio)]
+
+4️⃣ User Journey / Flow Diagram
+
+Main user flow:
+
+Onboarding
+
+Sign Up → Choose Preferences → Tutorial
+
+Daily Engagement
+
+View Daily Challenges → Complete Task → Earn Coins → Update Streak → View Leaderboard
+
+Squad Participation
+
+Join Squad → Complete Squad Tasks → Earn Bonus Coins
+
+Rewards & Redemption
+
+View Wallet → Redeem Coins → Receive Reward
+
+Dynamic Events
+
+Participate in Limited-Time Events → Earn Rare Rewards
+
+User Flow Diagram (text-based):
+
+[Onboarding] --> [Login/Signup] --> [Home Screen] 
+   --> [Daily Challenge] --> [Complete Task] --> [Update Streak]
+   --> [Squad Tasks] --> [Earn Squad Bonus]
+   --> [Reward Redemption] --> [Wallet Updated]
+   --> [Leaderboard] --> [Track Progress]
+
+✅ Implementation Logic
+
+Streak Calculation:
+
+Daily check for task completion → increment streak → bonus points added for milestones
+
+Store streaks in Redis for fast access
+
+Reward System:
+
+Coins earned per task + streak bonus
+
+Limited-time rewards trigger expiration logic
+
+Squad Mechanism:
+
+Users join squads
+
+Collective streak completion → bonus points distributed
+
+Leaderboard Logic:
+
+Redis cache for fast leaderboard updates
+
+Sort users by total points + streak multiplier
+
+Notifications:
+
+Reminder push notifications for incomplete tasks
+
+Event notifications for limited-time streak events
+
+Analytics Tracking:
+
+Track user actions: task completion, streak updates, reward redemption
