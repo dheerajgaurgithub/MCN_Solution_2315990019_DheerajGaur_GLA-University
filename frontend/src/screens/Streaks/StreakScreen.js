@@ -1,0 +1,11 @@
+// src/screens/Streaks/StreakScreen.js
+import React from 'react';
+import { View, Text } from 'react-native';
+
+export default function StreakScreen() {
+  return (
+    <View style={{ flex:1, justifyContent:'center', alignItems:'center' }}>
+      <Text>Streak Screen</Text>
+    </View>
+  );
+}

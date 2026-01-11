@@ -1,0 +1,13 @@
+// src/services/notificationService.js
+import * as Notifications from 'expo-notifications';
+
+export const scheduleNotification = async (title, body, seconds = 5) => {
+  await Notifications.scheduleNotificationAsync({
+    content: { title, body },
+    trigger: { seconds },
+  });
+};
+
+export const cancelAllNotifications = async () => {
+  await Notifications.cancelAllScheduledNotificationsAsync();
+};
